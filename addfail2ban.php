@@ -9,6 +9,7 @@ if(count($argv) != 5){
     echo "引数が不正です";
     exit(1);
 }
+
 $name = $argv[1];
 $protocol = $argv[2];
 $service_name = $argv[3];
@@ -82,7 +83,6 @@ if (filter_var($ip,FILTER_VALIDATE_IP,FILTER_FLAG_IPV4)){
         echo $e -> getMessage();
         exit(1);
     }
-    //同一ネットブロックで１０回
     exit(0);
 }
 exit(0);
