@@ -1,8 +1,9 @@
 #!/usr/bin/php -n
 <?php
-require_once 'vendor/autoload.php';
-require_once 'config/db.php';
-require_once 'lib/lib.php';
+$path = realpath(dirname(__FILE__));
+require_once $path . 'vendor/autoload.php';
+require_once $path . 'config/db.php';
+require_once $path . 'lib/lib.php';
 
 //引数はフィルタ名、IPアドレス
 if(count($argv) != 3){
