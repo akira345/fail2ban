@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS `fail2ban` (
 ```
 
 Fail2BanのActionに
-'''
+```
 actionban = iptables -I fail2ban-<name> 1 -s <ip> -j DROP /root/fail2ban.php <name> <protocol> <port> <ip>
-'''
+```
 のような感じで追記します。
 
 参考：https://www.saas-secure.com/online-services/fail2ban-ip-sharing.html
