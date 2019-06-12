@@ -15,9 +15,6 @@ CREATE TABLE IF NOT EXISTS `fail2ban` (
   `hostname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created` datetime NOT NULL,
   `name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `protocol` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `port` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `service_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `ip` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `netblock` varchar(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `country_cd` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -28,10 +25,29 @@ CREATE TABLE IF NOT EXISTS `fail2ban` (
   KEY `ip` (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
 ```
+Fail2BanのActionに設定します。
+```
+vi /etc/fail2ban/action.d/add-mysql.conf
+```
+内容はこんな感じです。
+```
+[INCLUDES]
+before =
+
+[Definition]
+actionstart =
+actionstop =
+actioncheck =
+actionban = /usr/bin/php /root/fail2ban.php <name> <ip>
+actionunban =
+
+[Init]
+```
 
 Fail2BanのActionに
 ```
-actionban = iptables -I fail2ban-<name> 1 -s <ip> -j DROP /root/fail2ban.php <name> <protocol> <port> <ip>
+action = %(action_mw)s
+          add-mysql[name="%(__name__)s", protocol="%(protocol)s",port="%(port)s"]
 ```
 のような感じで追記します。
 
