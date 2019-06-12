@@ -5,6 +5,10 @@ require_once 'config/db.php';
 require_once 'lib/lib.php';
 
 //引数はフィルタ名、プロトコル、サービス名またはポート番号、IPアドレス
+if(count($argv) != 5){
+    echo "引数が不正です";
+    exit(1);
+}
 $name = $argv[1];
 $protocol = $argv[2];
 $service_name = $argv[3];
