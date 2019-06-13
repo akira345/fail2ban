@@ -7,7 +7,7 @@ Fail2BanでBANされたIPアドレスより、国とサブネットを割り出�
 使い方
 --------------
 1. クローンし、composer installします。
-1. テーブルはこんな感じで適当に作ります。（MySQL）
+1. テーブルはこんな感じで適当に作ります。（MySQL）createdはNowを使っているので、DBのタイムゾーン注意です。横着です（汗
     ```
     SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
     SET time_zone = "+00:00";

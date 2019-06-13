@@ -48,7 +48,7 @@ if (filter_var($ip,FILTER_VALIDATE_IP,FILTER_FLAG_IPV4)){
         exit(1);
     }
     try{
-        //DBに登録
+        //DBに登録。createdはデータベース時刻になるので、タイムゾーン注意
         $sql = "INSERT INTO fail2ban set "
         . "hostname = :hostname,"
         . "created = Now(),"
