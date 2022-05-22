@@ -1,5 +1,5 @@
 {
     "require": {
-        "rlanvin/php-ip": "2.*"
+        "rlanvin/php-ip": "3.*"
     }
 }
