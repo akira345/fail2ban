@@ -5,6 +5,8 @@ require_once $path . '/vendor/autoload.php';
 require_once $path . '/config/db.php';
 require_once $path . '/lib/lib.php';
 
+use PhpIP\IPBlock;
+
 //引数はフィルタ名、IPアドレス
 if(count($argv) != 3){
     echo "引数が不正です";
