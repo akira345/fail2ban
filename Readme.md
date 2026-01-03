@@ -2,7 +2,7 @@ Fail2Ban add db
 ========
 Fail2BanでBANされたIPアドレスより、国とサブネットを割り出してデータベースに記録します。
 
-データベースは、[ここ](https://github.com/akira345/iplist)の奴を使います。
+データベースは、[ここ](https://github.com/akira345/ip_allocation_search)の奴を使います。
 
 使い方
 --------------
