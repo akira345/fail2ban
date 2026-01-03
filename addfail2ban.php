@@ -24,20 +24,27 @@ if (filter_var($ip,FILTER_VALIDATE_IP,FILTER_FLAG_IPV4)){
     try{
         $block = "";
         //Select ip
-        $sql = "SELECT lst.*,(select c.country_name from country c "
-            . "where lst.country = c.country_cd) country_name "
-            . "FROM iplist lst "
-            . "WHERE "
-            . "inet_aton(:ip) between inet_aton(lst.ip) and (inet_aton(lst.ip) + (lst.kosu -1))";
+    // IPv4用のクエリ - 事前計算されたip_start_binaryとip_end_binaryを使用
+    $sql = "SELECT 
+              ia.netblock_cidr,
+              c.country_name,
+              c.country_code,
+            FROM ip_allocations ia
+            LEFT JOIN countries c ON ia.country_code = c.country_code
+            WHERE 
+              ia.ip_version = 4 
+              AND INET6_ATON(:ip) >= ia.ip_start_binary
+              AND INET6_ATON(:ip) <= ia.ip_end_binary
+            LIMIT 1";
+
         //DBから指定範囲にあるデータを抜く
         $db = getDB();
         $stmt = $db->prepare($sql);
         $stmt -> bindParam(':ip',$ip,PDO::PARAM_STR);
         $stmt -> execute();
         while($row = $stmt -> fetch()){
-            $country_cd = $row["country"];
-            $netblock   = $row["netblock"];
-            $netblock = fix_netblock($netblock);
+            $country_cd = $row["country_code"];
+            $netblock   = $row["netblock_cidr"];
             $country_name = $row["country_name"];
             $block = IPBlock::create($netblock);
             if ($block->contains($ip)){
